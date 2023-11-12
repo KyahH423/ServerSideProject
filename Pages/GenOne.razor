@@ -1,0 +1,43 @@
+﻿@page "/genone"
+@using Newtonsoft.Json
+@using ServerSideProject.Data
+
+
+<PageTitle>Gen One</PageTitle>
+
+<h3>Gen One</h3>
+
+@if (allGen1 == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in allGen1)
+            {
+                <tr>
+                    <td>@p.Name</td>
+                    <td>@p.Id</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Pokemon[]? allGen1;
+    
+    string json = System.IO.File.ReadAllText("C:\\Users\\kyahh\\OneDrive\\Documents\\Server Side\\ServerSideProject\\Data\\gen1.json");
+    protected override async Task OnInitializedAsync()
+    {
+        allGen1 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
+    }
+}
+

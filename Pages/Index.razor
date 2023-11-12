@@ -2,8 +2,33 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<button @onclick="FetchData">Get Data</button>
 
-Welcome to your new app.
+@if (pokemon != null)
+{
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    <h3>Name: @allPokemon[1].Name</h3>
+}
+
+
+@code{
+    public Pokemon pokemon;
+    public Pokemon[] allPokemon = new Pokemon[1292];
+    public HttpClient httpClient = new HttpClient();
+
+
+    public async Task FetchData()
+    {
+        for (int i = 0; i < 152; i++)
+        {
+            pokemon = await httpClient.GetFromJsonAsync<Pokemon>($"https://pokeapi.co/api/v2/pokemon/{i+1}");
+            allPokemon[i] = pokemon;
+        }
+    }
+
+    public class Pokemon
+    {
+        public string Name{ get; set; }
+    }
+}
+

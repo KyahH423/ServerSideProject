@@ -66,3 +66,20 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+    .pokemon-List {
+        --shadow-size: 7px;
+        background: white;
+        box-shadow: 0px 0px var(--shadow-size) black;
+        border-radius: 25px;
+    
+        padding: 15px;
+        width: auto;
+        margin: 5%;
+    }
+    
+    .pokemon-table-spacing {
+        border-spacing: 25px ;
+        border-collapse:separate;
+    
+    }
