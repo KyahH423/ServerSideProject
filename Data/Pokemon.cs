@@ -10,6 +10,9 @@ namespace ServerSideProject.Data
         [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("sprites")]
+        public SpritesMeta SpriteURL { get; set; }
+
         [JsonProperty("weight")]
         public int Weight { get; set; }
 

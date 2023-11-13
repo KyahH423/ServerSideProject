@@ -16,7 +16,7 @@ else
         {  
             <tr> 
                 <td class="pokemon-List">
-                    <img style = "width: 50%"src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(allGen2[i].Id).png" alt="@allGen2[i].Name">
+                    <img style = "width: 50%; padding: 0" src="@allGen2[i].SpriteURL" alt="@allGen2[i].Name">
                     <p style="float:right">
                         <h3>@allGen2[i].Name.ToUpper()</h3><br>
                         Grass/ Poison
@@ -25,22 +25,22 @@ else
                 </td>
                 @if (i + 1 <= allGen2.Count() - 1)
                 {
-                        <td class="pokemon-List">
-                            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(allGen2[i+1].Id).png" alt="@allGen2[i+1].Name">
-                                <p>
-                                <h3>@allGen2[i+1].Name.ToUpper()</h3><br>
-                                Grass/ Poison
-                                @(i + 1)
-                            </p>
-                        </td>
+                    <td class="pokemon-List">
+                        <img style="width: 50%; padding: 0" src="@allGen2[i+1].SpriteURL" alt="@allGen2[i+1].Name">
+                        <p style="float:right">
+                            <h3>@allGen2[i+1].Name.ToUpper()</h3><br>
+                            Grass/ Poison
+                            @i+1
+                        </p>
+                    </td>
                         @if(i + 2 <= allGen2.Count() - 1)
                         {
                             <td class="pokemon-List">
-                                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/@(allGen2[i+2].Id).png" alt="@allGen2[i+2].Name">
-                                <p>
+                                <img style="width: 50%; padding: 0" src="@allGen2[i+2].SpriteURL" alt="@allGen2[i+2].Name">
+                                <p style="float:right">
                                     <h3>@allGen2[i+2].Name.ToUpper()</h3><br>
                                     Grass/ Poison
-                                    @(i + 2)
+                                    @i+2
                                 </p>
                             </td>
                         }
@@ -54,8 +54,8 @@ else
 
 @code {
     private Pokemon[]? allGen2;
-
-    string json = System.IO.File.ReadAllText("C:\\Users\\kyahh\\OneDrive\\Documents\\Server Side\\ServerSideProject\\Data\\gen1.json");
+    // string json = System.IO.File.ReadAllText("C:\\Users\\kyahh\\OneDrive\\Documents\\Server Side\\ServerSideProject\\Data\\gen1.json");
+    string json = System.IO.File.ReadAllText("./Data/gen1.json");
     protected override async Task OnInitializedAsync()
     {
         allGen2 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
