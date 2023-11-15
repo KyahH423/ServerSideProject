@@ -1,12 +1,15 @@
 ﻿@page "/genone"
-@inject HttpClient httpClient
-@using ServerSideProject.Data
 @using Newtonsoft.Json
+@using ServerSideProject.Data
 
+
+<PageTitle>Gen One</PageTitle>
+
+<h3>Gen One</h3>
 
 @if (allGen1 == null)
 {
-    <h1 class="text-center"> No Pokemon to display</h1>
+    <p><em>Loading...</em></p>
 }
 else
 {
@@ -50,11 +53,9 @@ else
     </table>
 }
 
-
-
 @code {
     private Pokemon[]? allGen1;
-    // string json = System.IO.File.ReadAllText("C:\\Users\\kyahh\\OneDrive\\Documents\\Server Side\\ServerSideProject\\Data\\gen1.json");
+    
     string json = System.IO.File.ReadAllText("./Data/gen1.json");
     protected override async Task OnInitializedAsync()
     {
