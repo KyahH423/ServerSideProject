@@ -6,6 +6,8 @@ namespace ServerSideProject.Data
     {
         [JsonProperty("front_default")]
         public string fd { get; set; }
+
+        public Type Type { get; set; }
         
         public SpritesMeta() { }
 

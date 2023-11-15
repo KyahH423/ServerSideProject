@@ -1,40 +1,61 @@
 ﻿@page "/genone"
-@using Newtonsoft.Json
+@inject HttpClient httpClient
 @using ServerSideProject.Data
+@using Newtonsoft.Json
 
-
-<PageTitle>Gen One</PageTitle>
-
-<h3>Gen One</h3>
 
 @if (allGen1 == null)
 {
-    <p><em>Loading...</em></p>
+    <h1 class="text-center"> No Pokemon to display</h1>
 }
 else
 {
-    <table class="table">
-        <thead>
+    <table class="pokemon-table-spacing container-fluid">
+
+        @for (int i = 0; i < allGen1.Count(); i += 3)
+        {
             <tr>
-                <th>Date</th>
+                <td class="pokemon-List">
+                    <img style="width: 50%; padding: 0" src="@allGen1[i].SpriteURL" alt="@allGen1[i].Name">
+                    <p style="float:right">
+                        <h3>@allGen1[i].Name.ToUpper()</h3><br>
+                        Grass/ Poison
+                        @i
+                    </p>
+                </td>
+                @if (i + 1 <= allGen1.Count() - 1)
+                {
+                    <td class="pokemon-List">
+                        <img style="width: 50%; padding: 0" src="@allGen1[i+1].SpriteURL" alt="@allGen1[i+1].Name">
+                        <p style="float:right">
+                            <h3>@allGen1[i+1].Name.ToUpper()</h3><br>
+                            Grass/ Poison
+                            @i+1
+                        </p>
+                    </td>
+                    @if (i + 2 <= allGen1.Count() - 1)
+                    {
+                        <td class="pokemon-List">
+                            <img style="width: 50%; padding: 0" src="@allGen1[i+2].SpriteURL" alt="@allGen1[i+2].Name">
+                            <p style="float:right">
+                                <h3>@allGen1[i+2].Name.ToUpper()</h3><br>
+                                Grass/ Poison
+                                @i+2
+                            </p>
+                        </td>
+                    }
+                }
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in allGen1)
-            {
-                <tr>
-                    <td>@p.Name</td>
-                    <td>@p.Id</td>
-                </tr>
-            }
-        </tbody>
+        }
     </table>
 }
 
+
+
 @code {
     private Pokemon[]? allGen1;
-    
-    string json = System.IO.File.ReadAllText("C:\\Users\\kyahh\\OneDrive\\Documents\\Server Side\\ServerSideProject\\Data\\gen1.json");
+    // string json = System.IO.File.ReadAllText("C:\\Users\\kyahh\\OneDrive\\Documents\\Server Side\\ServerSideProject\\Data\\gen1.json");
+    string json = System.IO.File.ReadAllText("./Data/gen1.json");
     protected override async Task OnInitializedAsync()
     {
         allGen1 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
