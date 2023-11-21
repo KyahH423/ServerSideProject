@@ -1,0 +1,51 @@
+﻿
+<div class="alert alert-secondary col-8" style="width: 100%; background-color:inherit; mix-blend-mode:hard-light">
+    <div>
+        @foreach(var item in Values.Where(s => s.Key == selectedPokemon).SelectMany(s => s.Value))
+        {
+            if(item.Item2 <= 100)
+            {
+                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff9e6e @(item.Item2)%, #ffdba4 @(item.Item2)%)">
+                    @($"{item.Item1}: {item.Item2}")
+                </div>
+            }
+            else if (item.Item2 <= 200)
+            {
+                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff603b @(item.Item2 - 100)%, #ff9e6e @(100 - item.Item2)%)">
+                    @($"{item.Item1}: {item.Item2}")
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff3e20 @(item.Item2 - 200)%, #ff603b @(200 - item.Item2)%)">
+                    @($"{item.Item1}: {item.Item2}")
+                </div>
+            }
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public Dictionary<int, IEnumerable<(string, int)>> Values {get; set;}
+
+    private int _selectedPokemon;
+
+    [Parameter]
+    public int selectedPokemon
+    {
+        get
+        {
+            if (_selectedPokemon == 0)
+                return Values.Keys.Last();
+            return _selectedPokemon;
+        }
+        set
+        {
+            _selectedPokemon = value;
+        }
+    }
+}
