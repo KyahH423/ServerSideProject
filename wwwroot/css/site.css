@@ -230,7 +230,7 @@ section > span {
 .statBar {
     width: 100%;
     font-size:x-large;
-    color: black;
+    color: black !important;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px
 }

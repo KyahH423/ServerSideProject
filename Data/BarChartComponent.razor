@@ -3,21 +3,15 @@
     <div>
         @foreach(var item in Values.Where(s => s.Key == selectedPokemon).SelectMany(s => s.Value))
         {
-            if(item.Item2 <= 100)
+            if(item.Item2 <= 200)
             {
-                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff9e6e @(item.Item2)%, #ffdba4 @(item.Item2)%)">
-                    @($"{item.Item1}: {item.Item2}")
-                </div>
-            }
-            else if (item.Item2 <= 200)
-            {
-                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff603b @(item.Item2 - 100)%, #ff9e6e @(100 - item.Item2)%)">
+                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff9e6e @((item.Item2)/2)%, #ffdba4 @((item.Item2)/2)%)">
                     @($"{item.Item1}: {item.Item2}")
                 </div>
             }
             else
             {
-                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff3e20 @(item.Item2 - 200)%, #ff603b @(200 - item.Item2)%)">
+                <div class="alert alert-danger p-1 border-dark statBar" style="background: linear-gradient(to right, #ff603b @((item.Item2 - 200)/2)%, #ff9e6e @((200 - item.Item2)/2)%)">
                     @($"{item.Item1}: {item.Item2}")
                 </div>
             }
