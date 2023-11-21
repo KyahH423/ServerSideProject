@@ -1,0 +1,27 @@
+﻿<div class="row">
+    <div class="col-5 col-md-3 text-end">Employee Id :</div>
+    <div class="col-7 col-md-9">@newP.Name</div>
+</div>
+<div class="row">
+    <div class="col-5 col-md-3 text-end">First Name :</div>
+    <div class="col-7 col-md-9">@newP.Name</div>
+</div>
+<div class="row">
+    <div class="col-5 col-md-3 text-end">Last Name :</div>
+    <div class="col-7 col-md-9">@newP.Height</div>
+</div>
+
+@code {
+    private Pokemon newP;
+
+    [Parameter] public Pokemon Pokemon { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // get employee with {EmployeeId} from DB
+
+        newP = Pokemon;
+
+        base.OnInitialized();
+    }
+}
