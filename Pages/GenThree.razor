@@ -1,13 +1,16 @@
 ﻿@page "/genthree"
-@inject HttpClient httpClient
-@using ServerSideProject.Data
 @using Newtonsoft.Json
+@using ServerSideProject.Data
 
 
+
+<PageTitle>Gen Three</PageTitle>
+
+<h3>Gen Three</h3>
 
 @if (allGen3 == null)
 {
-    <h1 class="text-center"> No Pokemon to display</h1>
+    <p><em>Loading...</em></p>
 }
 else
 {
@@ -19,36 +22,72 @@ else
         {
             var j = allGen3[i];
             <tr>
-                <td class="pokemon-List pokeButton" @onclick="() => ShowEmployeeComponent(j)">
-                    <img style="width: 50%; padding: 0" src="@allGen3[i].SpriteURL" alt="@allGen3[i].Name">
-                    <p style="float:right">
-                        <h3>@allGen3[i].Name.ToUpper()</h3><br>
-                        Grass/ Poison
-                        @i
-                    </p>
+                <td class="pokemon-List pokemon-@allGen3[i].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(j)">
+                    <h3 class="pokemon-name">@allGen3[i].Name.ToUpper()</h3>
+
+                    @if (@allGen3[i].Types.Count() > 1)
+                    {
+                        <h3 class="pokemon-type">@allGen3[i].Types[0].Type.Name.ToString().ToUpper()/@allGen3[i].Types[1].Type.Name.ToString().ToUpper()</h3>
+                    }
+                    else
+                    {
+                        <h3 class="pokemon-type">@allGen3[i].Types[0].Type.Name.ToString().ToUpper()</h3>
+                    }
+
+                    <br>
+                    <div class="pokemon-sprite-container">
+                        <img class="pokemon-sprite" src="@allGen3[i].SpriteURL" alt="@allGen3[i].Name">
+                    </div>
+
+
+                    <BarChartComponent Title="@($"{allGen3[i].Name.ToUpper()} STATS")" Values="PData" selectedPokemon="@allGen3[i].Id" />
+
                 </td>
-                
                 @if (i + 1 <= allGen3.Count() - 1)
                 {
                     var m = allGen3[i + 1];
-                    <td class="pokemon-List" @onclick="() => ShowEmployeeComponent(m)">
-                        <img style="width: 50%; padding: 0" src="@allGen3[i+1].SpriteURL" alt="@allGen3[i+1].Name">
-                        <p style="float:right">
-                            <h3>@allGen3[i+1].Name.ToUpper()</h3><br>
-                            Grass/ Poison
-                            @i+1
-                        </p>
+                    <td class="pokemon-List pokemon-@allGen3[i+1].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(m)">
+                        <h3 class="pokemon-name ">@allGen3[i + 1].Name.ToUpper()</h3>
+
+                        @if (@allGen3[i + 1].Types.Count() > 1)
+                        {
+                            <h3 class="pokemon-type">@allGen3[i + 1].Types[0].Type.Name.ToString().ToUpper()/@allGen3[i + 1].Types[1].Type.Name.ToString().ToUpper()</h3>
+                        }
+                        else
+                        {
+                            <h3 class="pokemon-type">@allGen3[i + 1].Types[0].Type.Name.ToString().ToUpper()</h3>
+                        }
+
+                        <br>
+                        <div class="pokemon-sprite-container">
+                            <img class="pokemon-sprite" src="@allGen3[i + 1].SpriteURL" alt="@allGen3[i + 1].Name">
+                        </div>
+
+
+                        <BarChartComponent Title="@($"{allGen3[i+1].Name.ToUpper()} STATS")" Values="PData" selectedPokemon="@allGen3[i+1].Id" />
                     </td>
                     @if (i + 2 <= allGen3.Count() - 1)
                     {
-                        var n = allGen3[i + 2]; 
-                        <td class="pokemon-List" @onclick="() => ShowEmployeeComponent(n)">
-                            <img style="width: 50%; padding: 0" src="@allGen3[i+2].SpriteURL" alt="@allGen3[i+2].Name">
-                            <p style="float:right">
-                                <h3>@allGen3[i+2].Name.ToUpper()</h3><br>
-                                Grass/ Poison
-                                @i+2
-                            </p>
+                        var n = allGen3[i + 2];
+                        <td class="pokemon-List pokemon-@allGen3[i+2].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(n)">
+                            <h3 class="pokemon-name ">@allGen3[i + 2].Name.ToUpper()</h3>
+
+                            @if (@allGen3[i + 2].Types.Count() > 1)
+                            {
+                                <h3 class="pokemon-type">@allGen3[i + 2].Types[0].Type.Name.ToString().ToUpper()/@allGen3[i + 2].Types[1].Type.Name.ToString().ToUpper()</h3>
+                            }
+                            else
+                            {
+                                <h3 class="pokemon-type">@allGen3[i + 2].Types[0].Type.Name.ToString().ToUpper()</h3>
+                            }
+
+                            <br>
+                            <div class="pokemon-sprite-container">
+                                <img class="pokemon-sprite" src="@allGen3[i + 2].SpriteURL" alt="@allGen3[i + 2].Name">
+                            </div>
+
+
+                            <BarChartComponent Title="@($"{allGen3[i+2].Name.ToUpper()} STATS")" Values="PData" selectedPokemon="@allGen3[i+2].Id" />
                         </td>
                     }
                 }
@@ -57,19 +96,45 @@ else
     </table>
 }
 
-
-
 @code {
-    public Pokemon[]? allGen3;
+    private Pokemon[]? allGen3;
+    private List<(string, int)>? specificPokemonStat;
+    //Test
+    private Dictionary<int, IEnumerable<(string, int)>> PData;
     public Pokemon CurrentPokemon;
     private Modal modal = default!;
     private string? message;
 
-    // string json = System.IO.File.ReadAllText("C:\\Users\\kyahh\\OneDrive\\Documents\\Server Side\\ServerSideProject\\Data\\gen1.json");
     string json = System.IO.File.ReadAllText("./Data/gen3.json");
     protected override async Task OnInitializedAsync()
     {
         allGen3 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
+
+        Dictionary<int, IEnumerable<(string, int)>> Data = new Dictionary<int, IEnumerable<(string, int)>>();
+
+        foreach (Pokemon pokemon in allGen3)
+        {
+            List<(string, int)> valuesList = new List<(string, int)>();
+            foreach (var stat in pokemon.Stats)
+            {
+                string statName = stat.Stat.Name.ToString().ToUpper();
+                int statNum = stat.BaseStat;
+                //it successfully reaches here with non null values
+
+                var statItem = (statName, statNum);
+                valuesList.Add(statItem);
+
+            }
+            IEnumerable<(string, int)> Values = valuesList;
+
+
+            Data.Add(pokemon.Id, Values);
+
+        }
+        PData = Data;
+
+
+        //PData has no values, only key
     }
 
     private async Task ShowEmployeeComponent(Pokemon newP)
@@ -84,7 +149,6 @@ else
     {
         CurrentPokemon = newP;
     }
-
 }
 
 
