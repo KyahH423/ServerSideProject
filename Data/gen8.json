@@ -35580,7 +35580,7 @@
                 "slot": 3
             }
         ],
-        "base_experience": null,
+        "base_experience": 263,
         "height": 18,
         "id": 899,
         "moves": [
@@ -36038,7 +36038,7 @@
                 "slot": 3
             }
         ],
-        "base_experience": null,
+        "base_experience": 175,
         "height": 18,
         "id": 900,
         "moves": [
@@ -36454,7 +36454,7 @@
                 "slot": 3
             }
         ],
-        "base_experience": null,
+        "base_experience": 250,
         "height": 24,
         "id": 901,
         "moves": [
@@ -36948,7 +36948,7 @@
                 "slot": 3
             }
         ],
-        "base_experience": null,
+        
         "height": 30,
         "id": 902,
         "moves": [
@@ -37346,7 +37346,7 @@
                 "slot": 3
             }
         ],
-        "base_experience": null,
+        
         "height": 13,
         "id": 903,
         "moves": [
@@ -37810,7 +37810,7 @@
                 "slot": 3
             }
         ],
-        "base_experience": null,
+        
         "height": 25,
         "id": 904,
         "moves": [
@@ -38230,7 +38230,7 @@
                 "slot": 3
             }
         ],
-        "base_experience": null,
+        
         "height": 16,
         "id": 905,
         "moves": [

@@ -33,8 +33,5 @@ namespace ServerSideProject.Data
 
         public int Height { get; set; }
 
-
-        [JsonProperty("base_experience")]
-        public int Experience { get; set; }
     }
 }
