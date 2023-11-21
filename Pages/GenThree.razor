@@ -41,7 +41,7 @@ else
                     </td>
                     @if (i + 2 <= allGen3.Count() - 1)
                     {
-                        var n = allGen3[i + 2];
+                        var n = allGen3[i + 2]; 
                         <td class="pokemon-List" @onclick="() => ShowEmployeeComponent(n)">
                             <img style="width: 50%; padding: 0" src="@allGen3[i+2].SpriteURL" alt="@allGen3[i+2].Name">
                             <p style="float:right">
