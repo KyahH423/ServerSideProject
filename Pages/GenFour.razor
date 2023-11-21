@@ -6,7 +6,7 @@
 
 <PageTitle>Gen Four</PageTitle>
 
-<h3>Gen One</h3>
+<h3>Gen Four</h3>
 
 @if (allGen4 == null)
 {
@@ -22,7 +22,7 @@ else
         {
             var j = allGen4[i];
             <tr>
-                <td class="pokemon-List pokemon-@allGen4[i].Types[0].Type.Name.ToString()" @onclick="() => ShowEmployeeComponent(j)">
+                <td class="pokemon-List pokemon-@allGen4[i].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(j)">
                     <h3 class="pokemon-name">@allGen4[i].Name.ToUpper()</h3>
 
                     @if (@allGen4[i].Types.Count() > 1)
@@ -46,7 +46,7 @@ else
                 @if (i + 1 <= allGen4.Count() - 1)
                 {
                     var m = allGen4[i + 1];
-                    <td class="pokemon-List pokemon-@allGen4[i+1].Types[0].Type.Name.ToString()" @onclick="() => ShowEmployeeComponent(m)">
+                    <td class="pokemon-List pokemon-@allGen4[i+1].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(m)">
                         <h3 class="pokemon-name ">@allGen4[i + 1].Name.ToUpper()</h3>
 
                         @if (@allGen4[i + 1].Types.Count() > 1)
@@ -69,7 +69,7 @@ else
                     @if (i + 2 <= allGen4.Count() - 1)
                     {
                         var n = allGen4[i + 2];
-                        <td class="pokemon-List pokemon-@allGen4[i+2].Types[0].Type.Name.ToString()" @onclick="() => ShowEmployeeComponent(n)">
+                        <td class="pokemon-List pokemon-@allGen4[i+2].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(n)">
                             <h3 class="pokemon-name ">@allGen4[i + 2].Name.ToUpper()</h3>
 
                             @if (@allGen4[i + 2].Types.Count() > 1)

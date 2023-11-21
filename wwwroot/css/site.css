@@ -81,14 +81,16 @@ a, .btn-link {
     border-color: #ffcb05;
     border-width: thick;
     padding: 15px;
-    width: auto;
+    width:auto 30%;
     margin: 5%;
+    resize: none;
+    
 }
     
 .pokemon-table-spacing {
     border-spacing: 25px ;
     border-collapse:separate;
-
+    resize:none;
 }
 
 .pokemon-sprite {
@@ -112,19 +114,25 @@ a, .btn-link {
 
 .pokemon-name {
     float: left;
+    resize:none;
     display: block;
     font-family: 'VT323', monospace;
     font-size:xx-large;
     margin-right: 2%;
+    
 }
 
 .pokemon-type {
     float: right;
     display: block;
+    resize:none;
     font-size:xx-large;
     margin-left: 2%;
     font-family: 'VT323', monospace;
 }
+
+
+
 
 .pokemon-height {
     border-width: 5px;
