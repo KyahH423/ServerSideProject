@@ -15,6 +15,11 @@ namespace ServerSideProject.Data
         [JsonProperty("sprites")]
         public SpritesMeta SpriteURL { get; set; }
 
+        [JsonProperty("abilities")]
+        public List<AbilityMeta> Abilities { get; set; }
+
+        [JsonProperty("moves")]
+        public List<MoveMeta> Moves { get; set; }
 
         [JsonProperty("types")]
         public List<TypesMeta> Types { get; set; }
