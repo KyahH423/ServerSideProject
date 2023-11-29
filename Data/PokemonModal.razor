@@ -1,38 +1,48 @@
-﻿<div class="container" style="text-align:center">
+﻿<div class="container" style="text-align:center; background: #c9c9c9">
     <div class="row">
         <div>
-            <img class="pokemon-sprite" src="@newP.SpriteURL" alt="@newP.Name">
-            <h1>@newP.Name</h1>
-            <h1>Pokedex Id: @newP.Id</h1>
-            @if (newP.Types.Count() > 1)
-            {
-                <h3 class="pokemon-type">@newP.Types[0].Type.Name.ToString().ToUpper()/@newP.Types[1].Type.Name.ToString().ToUpper()</h3>
-            }
-            else
-            {
-                <h3 class="pokemon-type">@newP.Types[0].Type.Name.ToString().ToUpper()</h3>
-            }
-            <h1 style="float:left">Heigh: @newP.Height cm</h1>
-            <h1 style="float:right">Weight: @newP.Weight kg</h1>
+            <img class="pokemon-sprite image-dropshadow " src="@newP.SpriteURL" alt="@newP.Name">
+            
+            <div class="pokemon-modal-center-text">@newP.Name.ToUpper()</div>
+
+            <div class="pokemon-modal-center-text">Pokedex Number: @newP.Id</div>
+
+            
+            <div class="row" style="text-align:center">
+                @if (newP.Types.Count() > 1)
+                {
+                    <span style="margin-left: auto;" class="pokemon-modal-type col-md-3 pokemon-@newP.Types[0].Type.Name.ToString()">@newP.Types[0].Type.Name.ToString().ToUpper()</span><span style="margin-right: auto;" class="pokemon-modal-type col-md-3 pokemon-@newP.Types[1].Type.Name.ToString()">@newP.Types[1].Type.Name.ToString().ToUpper()</span>
+                }
+                else
+                {
+                    <span style="margin-left: auto; margin-right: auto;" class="pokemon-modal-type col-md-3 pokemon-@newP.Types[0].Type.Name.ToString()">@newP.Types[0].Type.Name.ToString().ToUpper()</span>
+                }
+            </div>
+            <br/>
+            <div class="pokemon-modal-height col-md-5" style=" float:left">Heigh: @newP.Height cm</div>
+            <div class="pokemon-modal-height col-md-6" style=" float:right">Weight: @newP.Weight kg</div>
         </div>
     </div>
+    <br />
     <div class="row">
-        <h1>Abilities: </h1>
+        <div class="pokemon-modal-center-text">Abilities: </div>
         @foreach (var a in newP.Abilities)
         {
-            <h1>@a.Ability.Name</h1>
+            <div class="col-md-6"style="font-size:xx-large">@a.Ability.Name</div>
         }
     </div>
+    <br />
     <div class="row">
-        <h1>Stats: </h1>
+        <div class="pokemon-modal-center-text">Stats: </div>
         <BarChartComponent Title="@($"{newP.Name.ToUpper()} STATS")" Values="PData" selectedPokemon="@newP.Id" />
     </div>
     <div class="row">
-        <h1>Moves: </h1>
+        <div class="pokemon-modal-center-text">Moves: </div>
         @foreach (var m in newP.Moves)
         {
-            <h2>@m.Move.Name</h2>
+            <h2 class="col-md-6">@m.Move.Name</h2>
         }
+        
     </div>
 </div>
 
