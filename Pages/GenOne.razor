@@ -6,7 +6,9 @@
 
 <PageTitle>Gen One</PageTitle>
 
-<h3>Gen One</h3>
+<div style="height:200px; text-align:center;" class="homeTitle">
+    <p style="padding-top: 20px;">Gen One</p>
+</div>
 
 @if (allGen1 == null)
 {
@@ -132,9 +134,6 @@ else
 
         }
         PData = Data;
-
-
-        //PData has no values, only key
     }
 
     private async Task ShowEmployeeComponent(Pokemon newP)
@@ -142,7 +141,8 @@ else
         SetC(newP);
         var parameters = new Dictionary<string, object>();
         parameters.Add("Pokemon", CurrentPokemon);
-        await modal.ShowAsync<PokemonModal>(title: "Employee Details", parameters: parameters);
+        await modal.ShowAsync<PokemonModal>(title: null, parameters: parameters);
+        
     }
 
     private void SetC(Pokemon newP)

@@ -34,9 +34,10 @@ namespace ServerSideProject.Data
 
 
         [JsonProperty("height")]
-
-
         public int Height { get; set; }
 
+        public Pokemon() { }
     }
+
+    
 }

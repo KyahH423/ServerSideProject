@@ -1,34 +1,29 @@
 ﻿@page "/"
+@using ServerSideProject.Pages
+@using ServerSideProject.Data
+
 
 <PageTitle>Index</PageTitle>
+<div class="container" style="text-align:center;">
+    <div class="homeTitle">
+        <p>WELCOME TO<br />POKEDEX PLUS!</p>
+    </div>
+    <div class="row" style="margin-top:5%;">
+        <div class="col-md-4 creatorFav">
+            <p> test left</p>
+        </div>
+        <div class="col-md-4 homeBio">
+            <p  style="text-align:center;">Hi trainer! Thank you for visiting our newly launched Pokedex Plus! Our Pokedex was created with the intention of preserving the original sprite characters while modernizing the way Pokemon statistics and information are displayed. </p>
+        </div>
+        <div class="col-md-4 creatorFav">
+            <p> test right</p>
+        </div>
+    </div>
+</div>
 
-<button @onclick="FetchData">Get Data</button>
-
-@if (pokemon != null)
-{
-
-    <h3>Name: @allPokemon[1].Name</h3>
-}
 
 
 @code{
-    public Pokemon pokemon;
-    public Pokemon[] allPokemon = new Pokemon[1292];
-    public HttpClient httpClient = new HttpClient();
 
-
-    public async Task FetchData()
-    {
-        for (int i = 0; i < 152; i++)
-        {
-            pokemon = await httpClient.GetFromJsonAsync<Pokemon>($"https://pokeapi.co/api/v2/pokemon/{i+1}");
-            allPokemon[i] = pokemon;
-        }
-    }
-
-    public class Pokemon
-    {
-        public string Name{ get; set; }
-    }
 }
 

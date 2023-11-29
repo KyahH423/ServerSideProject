@@ -1,0 +1,72 @@
+﻿<div class="container" style="text-align:center">
+    <div class="row">
+        <div>
+            <img class="pokemon-sprite" src="@newP.SpriteURL" alt="@newP.Name">
+            <h1>@newP.Name</h1>
+            <h1>Pokedex Id: @newP.Id</h1>
+            @if (newP.Types.Count() > 1)
+            {
+                <h3 class="pokemon-type">@newP.Types[0].Type.Name.ToString().ToUpper()/@newP.Types[1].Type.Name.ToString().ToUpper()</h3>
+            }
+            else
+            {
+                <h3 class="pokemon-type">@newP.Types[0].Type.Name.ToString().ToUpper()</h3>
+            }
+            <h1 style="float:left">Heigh: @newP.Height cm</h1>
+            <h1 style="float:right">Weight: @newP.Weight kg</h1>
+        </div>
+    </div>
+    <div class="row">
+        <h1>Abilities: </h1>
+        @foreach (var a in newP.Abilities)
+        {
+            <h1>@a.Ability.Name</h1>
+        }
+    </div>
+    <div class="row">
+        <h1>Stats: </h1>
+        <BarChartComponent Title="@($"{newP.Name.ToUpper()} STATS")" Values="PData2" selectedPokemon="@newP.Id" />
+    </div>
+    <div class="row">
+        <h1>Moves: </h1>
+        @foreach (var m in newP.Moves)
+        {
+            <h2>@m.Move.Name</h2>
+        }
+    </div>
+</div>
+
+@code {
+    private Pokemon newP;
+
+    [Parameter] public Pokemon Pokemon { get; set; }
+    private Dictionary<int, IEnumerable<(string, int)>> PData2;
+
+
+    protected override void OnInitialized()
+    {
+        // get employee with {EmployeeId} from DB
+
+        newP = Pokemon;
+        Dictionary<int, IEnumerable<(string, int)>> Data = new Dictionary<int, IEnumerable<(string, int)>>();
+
+        List<(string, int)> valuesList = new List<(string, int)>();
+        foreach (var stat in newP.Stats)
+        {
+            string statName = stat.Stat.Name.ToString().ToUpper();
+            int statNum = stat.BaseStat;
+            //it successfully reaches here with non null values
+
+            var statItem = (statName, statNum);
+            valuesList.Add(statItem);
+
+        }
+        IEnumerable<(string, int)> Values = valuesList;
+
+
+        Data.Add(newP.Id, Values);
+        PData2 = Data;
+
+        base.OnInitialized();
+    }
+}

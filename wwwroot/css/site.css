@@ -246,3 +246,97 @@ section > span {
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px
 }
+
+.homeTitle {
+    font-family: 'Pokemon Solid', sans-serif;
+    padding: 10px;
+    text-align: center;
+    font-size: 70px;
+    background: -webkit-radial-gradient(#0075BE, #0A285F);
+    letter-spacing: 0.1em;
+    margin-left: -90px;
+    margin-right: -90px;
+    margin-top:-35px;
+}
+
+.homeTitle p, .pageTitle p{
+    background: -webkit-radial-gradient(#FFCC00, #6A5D11);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pageTitle {
+    height: 200px;
+    text-align: center;
+    font-family: 'Pokemon Solid', sans-serif;
+    padding: 10px;
+    font-size: 70px;
+    background: -webkit-radial-gradient(#0075BE, #0A285F);
+    letter-spacing: 0.1em;
+    margin-left: -90px;
+    margin-right: -90px;
+    margin-top: -35px;
+}
+
+.creatorFav {
+    font-size: 30px;
+}
+
+.homeBio {
+    font-size:30px;
+}
+
+.pageTitle button {
+    background-color: #0A285F;
+    color: #FFCC00;
+    float: right;
+    margin-right: 4%;
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    border-color: #FFCC00;
+}
+
+.testing4 {
+    background-color:aqua;
+}
+
+.pokemon-modal-type {
+    padding: 3px;
+    border-radius: 15px;
+    display: block;
+    resize: none;
+    font-size: xx-large;
+    text-align: center;
+    width: 20%;
+}
+
+.pokemon-modal-center-text {
+    resize: none;
+    display: block;
+    font-family: 'VT323', monospace;
+    font-size: 42px;
+    margin-right: 2%;
+}
+
+.pokemon-modal-center-text small {
+    font-size:x-large;
+}
+
+.pokemon-modal-height {
+    resize: none;
+    display: block;
+    font-family: 'VT323', monospace;
+    font-size: xx-large;
+    margin-right: 2%;
+}
+
+
+.image-dropshadow {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    /* use the polygon() function to create a clipping mask based on the alpha channel */
+    filter: drop-shadow(5px 10px 0 #0A285F);
+    /* apply the drop shadow using the drop-shadow() function */
+}
