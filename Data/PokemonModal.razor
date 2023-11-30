@@ -1,13 +1,10 @@
 ﻿<div class="container" style="text-align:center; background: #c9c9c9">
     <div class="row">
         <div>
-            <img class="pokemon-sprite image-dropshadow " src="@newP.SpriteURL" alt="@newP.Name">
-            
+            <img class="pokemon-sprite image-dropshadow " src="@newP.SpriteURL" alt="@newP.Name">          
             <div class="pokemon-modal-center-text">@newP.Name.ToUpper()</div>
-
             <div class="pokemon-modal-center-text">Pokedex Number: @newP.Id</div>
-
-            
+   
             <div class="row" style="text-align:center">
                 @if (newP.Types.Count() > 1)
                 {
@@ -19,64 +16,65 @@
                 }
             </div>
             <br/>
-            <div class="pokemon-modal-height col-md-5" style=" float:left">Heigh: @newP.Height cm</div>
-            <div class="pokemon-modal-height col-md-6" style=" float:right">Weight: @newP.Weight kg</div>
+
+            @if(newP.Height < 10)
+            {
+                <div class="pokemon-modal-height col-md-5" style=" float:left">Height: 0.@newP.Height m</div>
+            }
+            else
+            {
+                string heightString = newP.Height.ToString();
+                heightString = heightString.Insert(1, ".");
+                <div class="pokemon-modal-height col-md-5" style=" float:left">Height: @heightString m</div>
+            }
+            <div class="pokemon-modal-height col-md-6" style=" float:right">Weight: @newP.Weight.ToString().Insert(newP.Weight.ToString().Length - 1, ".")  kg</div>
         </div>
     </div>
     <br />
+
     <div class="row">
         <div class="pokemon-modal-center-text">Abilities: </div>
         @foreach (var a in newP.Abilities)
         {
-            <div class="col-md-6"style="font-size:xx-large">@a.Ability.Name</div>
+            <div class="col-md-6"style="font-size:xx-large">@a.Ability.Name.ToUpper()</div>
         }
     </div>
     <br />
+
     <div class="row">
         <div class="pokemon-modal-center-text">Stats: </div>
         <BarChartComponent Title="@($"{newP.Name.ToUpper()} STATS")" Values="PData" selectedPokemon="@newP.Id" />
     </div>
+
     <div class="row">
         <div class="pokemon-modal-center-text">Moves: </div>
         @foreach (var m in newP.Moves)
         {
-            <h2 class="col-md-6">@m.Move.Name</h2>
-        }
-        
+            <h2 class="col-md-6">@m.Move.Name.ToUpper()</h2>
+        }    
     </div>
 </div>
 
 @code {
     private Pokemon newP;
-
     [Parameter] public Pokemon Pokemon { get; set; }
     private Dictionary<int, IEnumerable<(string, int)>> PData;
 
-
     protected override void OnInitialized()
     {
-        // get employee with {EmployeeId} from DB
-
         newP = Pokemon;
         Dictionary<int, IEnumerable<(string, int)>> Data = new Dictionary<int, IEnumerable<(string, int)>>();
-
         List<(string, int)> valuesList = new List<(string, int)>();
         foreach (var stat in newP.Stats)
         {
             string statName = stat.Stat.Name.ToString().ToUpper();
             int statNum = stat.BaseStat;
-            //it successfully reaches here with non null values
-
             var statItem = (statName, statNum);
             valuesList.Add(statItem);
-
         }
         IEnumerable<(string, int)> Values = valuesList;
-
-
         Data.Add(newP.Id, Values);
         PData = Data;
-
         base.OnInitialized();
     }
 }

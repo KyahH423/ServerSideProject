@@ -5,7 +5,10 @@
 <PageTitle>Gen Three</PageTitle>
 <div class="pageTitle">
     <p style="padding-top: 20px;">Gen Three</p>
-    <Button @onclick="OnShowOffcanvasClick">Search Pokedex!</Button>
+    <button @onclick="OnShowOffcanvasClick">Search Pokedex!</button>
+</div>
+<div style="text-align:center; margin-top:20px">
+    <h1>Click on the Pokemon Card to view more information!</h1>
 </div>
 
 @if (allGen3 == null)
@@ -18,22 +21,19 @@ else
     <Modal @ref="modalGrid" UseStaticBackdrop="true" CloseOnEscape="false" />
 
     // Offcanvas with grid display for search feature
-    <Offcanvas @ref="offcanvas" Title="Search Our Pokedex!" Size="OffcanvasSize.Large" >
-        <BodyTemplate> 
-            <Grid TItem="Pokemon" Class="table table-hover table-bordered table-striped testing4" DataProvider="PokemonDataProvider" AllowFiltering="true" Responsive="true" AllowRowClick="true" OnRowDoubleClick="ShowPokemonGridModal">
+    <Offcanvas @ref="offcanvas" Title="Search here for your favorite Pokemon by using its name or pokedex id! To view information on specific Pokemon please double click the row associated with it." Size="OffcanvasSize.Large">
+        <BodyTemplate>
+            <Grid TItem="Pokemon" Class="table table-hover table-bordered text-white searchGrid" DataProvider="PokemonDataProvider" AllowFiltering="true" Responsive="true" AllowRowClick="true" OnRowDoubleClick="ShowPokemonGridModal" ItemsPerPageText="Pokemon Per Page" PageSizeSelectorItems="@(new int[] {10,20,30})" PaginationItemsTextFormat="{0} - {1} of {2}" PageSize="10" PageSizeSelectorVisible="true" AllowPaging="true">
                 <GridColumn TItem="Pokemon" HeaderText="Pokedex Id" PropertyName="Id">
-                    @context.Id 
+                    @context.Id
                 </GridColumn>
                 <GridColumn TItem="Pokemon" HeaderText="Name" PropertyName="Name" StringComparison="StringComparison.Ordinal">
-                    @context.Name
-                </GridColumn>
-                <GridColumn TItem="Pokemon" HeaderText="Type"  PropertyName="context.Types[0].Type.Name" >
-                    @context.Types[0].Type.Name
+                    @context.Name.ToUpper()
                 </GridColumn>
             </Grid>
         </BodyTemplate>
     </Offcanvas>
-    
+
 
     <table class="pokemon-table-spacing container-fluid">
         @for (int i = 0; i < allGen3.Count(); i += 3)
@@ -111,7 +111,7 @@ else
 
 @code {
     public Pokemon[]? allGen3;
-    private IEnumerable<Pokemon> gridListGen3;
+    private IEnumerable<Pokemon> gridListGen2;
     private List<(string, int)>? specificPokemonStat;
     private Dictionary<int, IEnumerable<(string, int)>> PData;
     private Dictionary<int, IEnumerable<(string, int)>> PData2;
@@ -124,10 +124,11 @@ else
     // For Grid Modal
     public Pokemon GridCurrentPokemon = new Pokemon();
     private Modal modalGrid = default!;
-   
+
 
     // Off Canvas Code
     private Offcanvas offcanvas;
+
     private async Task OnShowOffcanvasClick()
     {
         await offcanvas?.ShowAsync();
@@ -154,13 +155,13 @@ else
             IEnumerable<(string, int)> Values = valuesList;
             Data.Add(pokemon.Id, Values);
         }
-        PData = Data;
+        PData = Data; // Pdata has no values, only keys
 
 
         // Pokemon list for Offcanvas and Grid display
-        gridListGen3 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
+        gridListGen2 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
         Dictionary<int, IEnumerable<(string, int)>> Data2 = new Dictionary<int, IEnumerable<(string, int)>>();
-        foreach (Pokemon pokemon in gridListGen3)
+        foreach (Pokemon pokemon in gridListGen2)
         {
             List<(string, int)> valuesList = new List<(string, int)>();
             foreach (var stat in pokemon.Stats)
@@ -180,7 +181,7 @@ else
     // Data provider method for grid
     private async Task<GridDataProviderResult<Pokemon>> PokemonDataProvider(GridDataProviderRequest<Pokemon> request)
     {
-        return await Task.FromResult(request.ApplyTo(gridListGen3));
+        return await Task.FromResult(request.ApplyTo(gridListGen2));
     }
 
 
@@ -198,7 +199,7 @@ else
         GridCurrentPokemon.Name = args.Item.Name;
         var parameters = new Dictionary<string, object>();
         parameters.Add("Pokemon", GridCurrentPokemon);
-        await modalGrid.ShowAsync<GridModal>(title: "Grid Pokemon Modal", parameters: parameters);
+        await modalGrid.ShowAsync<GridModal>(title: "Pokemon Information", parameters: parameters);
     }
 
     // Regular Modal dispaly from Pokemon card
@@ -207,7 +208,7 @@ else
         SetC(newP);
         var parameters = new Dictionary<string, object>();
         parameters.Add("Pokemon", CurrentPokemon);
-        await modal.ShowAsync<PokemonModal>(title: "Regular Pokemon Modal", parameters: parameters);
+        await modal.ShowAsync<PokemonModal>(title: "Pokemon Information", parameters: parameters);
     }
 
     // Sets current Pokemon for regular modal display
@@ -216,5 +217,4 @@ else
         CurrentPokemon = newP;
     }
 }
-
 

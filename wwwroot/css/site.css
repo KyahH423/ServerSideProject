@@ -278,12 +278,13 @@ section > span {
     margin-top: -35px;
 }
 
-.creatorFav {
-    font-size: 30px;
-}
-
 .homeBio {
     font-size:30px;
+}
+
+.creatorFav p strikeThrough{
+    text-decoration: line-through;
+    text-decoration-color: red;
 }
 
 .pageTitle button {
@@ -294,10 +295,28 @@ section > span {
     font-size: 20px;
     letter-spacing: 0.1em;
     border-color: #FFCC00;
+    transition: none;
+    padding: 5px;
+    border-radius: 10px;
 }
 
-.testing4 {
-    background-color:aqua;
+.creatorFav {
+    font-size: 30px;
+    border-radius:50% !important;
+    width:100%;
+    height: auto;
+    position:relative;
+}
+
+.pokeball {
+    width: 100%;
+    height: auto;
+    margin-bottom: -67%
+}
+
+
+.searchGrid {
+    background-color: #0075BE;
 }
 
 .pokemon-modal-type {
@@ -340,3 +359,4 @@ section > span {
     filter: drop-shadow(5px 10px 0 #0A285F);
     /* apply the drop shadow using the drop-shadow() function */
 }
+

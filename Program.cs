@@ -11,8 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddBlazorBootstrap(); // Add this line
-
-builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddHttpClient();
 
 var app = builder.Build();

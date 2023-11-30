@@ -2,12 +2,13 @@
 @using Newtonsoft.Json
 @using ServerSideProject.Data
 
-
-
 <PageTitle>Gen One</PageTitle>
-
-<div style="height:200px; text-align:center;" class="homeTitle">
+<div class="pageTitle">
     <p style="padding-top: 20px;">Gen One</p>
+    <button @onclick="OnShowOffcanvasClick">Search Pokedex!</button>
+</div>
+<div style="text-align:center; margin-top:20px">
+    <h1>Click on the Pokemon Card to view more information!</h1>
 </div>
 
 @if (allGen1 == null)
@@ -16,15 +17,30 @@
 }
 else
 {
-    <Modal @ref="modal" UseStaticBackdrop="true" CloseOnEscape="false" IsVerticallyCentered="true" IsScrollable="true" />
+    <Modal @ref="modal" UseStaticBackdrop="true" CloseOnEscape="false" />
+    <Modal @ref="modalGrid" UseStaticBackdrop="true" CloseOnEscape="false" />
+
+    // Offcanvas with grid display for search feature
+    <Offcanvas @ref="offcanvas" Title="Search here for your favorite Pokemon by using its name or pokedex id! To view information on specific Pokemon please double click the row associated with it." Size="OffcanvasSize.Large">
+        <BodyTemplate>
+            <Grid TItem="Pokemon" Class="table table-hover table-bordered text-white searchGrid" DataProvider="PokemonDataProvider" AllowFiltering="true" Responsive="true" AllowRowClick="true" OnRowDoubleClick="ShowPokemonGridModal" ItemsPerPageText="Pokemon Per Page" PageSizeSelectorItems="@(new int[] {10,20,30})" PaginationItemsTextFormat="{0} - {1} of {2}" PageSize="10" PageSizeSelectorVisible="true" AllowPaging="true">
+                <GridColumn TItem="Pokemon" HeaderText="Pokedex Id" PropertyName="Id">
+                    @context.Id
+                </GridColumn>
+                <GridColumn TItem="Pokemon" HeaderText="Name" PropertyName="Name" StringComparison="StringComparison.Ordinal">
+                    @context.Name.ToUpper()
+                </GridColumn>
+            </Grid>
+        </BodyTemplate>
+    </Offcanvas>
+
 
     <table class="pokemon-table-spacing container-fluid">
-
         @for (int i = 0; i < allGen1.Count(); i += 3)
         {
             var j = allGen1[i];
             <tr>
-                <td class="pokemon-List pokemon-@allGen1[i].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(j)">
+                <td class="pokemon-List pokemon-@allGen1[i].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowPokemonModal(j)">
                     <h3 class="pokemon-name">@allGen1[i].Name.ToUpper()</h3>
 
                     @if (@allGen1[i].Types.Count() > 1)
@@ -40,15 +56,13 @@ else
                     <div class="pokemon-sprite-container">
                         <img class="pokemon-sprite" src="@allGen1[i].SpriteURL" alt="@allGen1[i].Name">
                     </div>
-
-
                     <BarChartComponent Title="@($"{allGen1[i].Name.ToUpper()} STATS")" Values="PData" selectedPokemon="@allGen1[i].Id" />
 
                 </td>
                 @if (i + 1 <= allGen1.Count() - 1)
                 {
                     var m = allGen1[i + 1];
-                    <td class="pokemon-List pokemon-@allGen1[i+1].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(m)">
+                    <td class="pokemon-List pokemon-@allGen1[i+1].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowPokemonModal(m)">
                         <h3 class="pokemon-name ">@allGen1[i + 1].Name.ToUpper()</h3>
 
                         @if (@allGen1[i + 1].Types.Count() > 1)
@@ -71,9 +85,8 @@ else
                     @if (i + 2 <= allGen1.Count() - 1)
                     {
                         var n = allGen1[i + 2];
-                        <td class="pokemon-List pokemon-@allGen1[i+2].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowEmployeeComponent(n)">
+                        <td class="pokemon-List pokemon-@allGen1[i+2].Types[0].Type.Name.ToString() col-md-4" @onclick="() => ShowPokemonModal(n)">
                             <h3 class="pokemon-name ">@allGen1[i + 2].Name.ToUpper()</h3>
-
                             @if (@allGen1[i + 2].Types.Count() > 1)
                             {
                                 <h3 class="pokemon-type">@allGen1[i + 2].Types[0].Type.Name.ToString().ToUpper()/@allGen1[i + 2].Types[1].Type.Name.ToString().ToUpper()</h3>
@@ -87,8 +100,6 @@ else
                             <div class="pokemon-sprite-container">
                                 <img class="pokemon-sprite" src="@allGen1[i + 2].SpriteURL" alt="@allGen1[i + 2].Name">
                             </div>
-
-
                             <BarChartComponent Title="@($"{allGen1[i+2].Name.ToUpper()} STATS")" Values="PData" selectedPokemon="@allGen1[i+2].Id" />
                         </td>
                     }
@@ -99,21 +110,38 @@ else
 }
 
 @code {
-    private Pokemon[]? allGen1;
+    public Pokemon[]? allGen1;
+    private IEnumerable<Pokemon> gridListGen1;
     private List<(string, int)>? specificPokemonStat;
-    //Test
     private Dictionary<int, IEnumerable<(string, int)>> PData;
-    public Pokemon CurrentPokemon;
+    private Dictionary<int, IEnumerable<(string, int)>> PData2;
+
+    // For Modal display
+    public Pokemon CurrentPokemon = new Pokemon();
     private Modal modal = default!;
     private string? message;
 
+    // For Grid Modal
+    public Pokemon GridCurrentPokemon = new Pokemon();
+    private Modal modalGrid = default!;
+
+
+    // Off Canvas Code
+    private Offcanvas offcanvas;
+
+    private async Task OnShowOffcanvasClick()
+    {
+        await offcanvas?.ShowAsync();
+    }
+
+
+    // Read in JSON file
     string json = System.IO.File.ReadAllText("./Data/gen1.json");
     protected override async Task OnInitializedAsync()
     {
+        // Pokemon array for regular display
         allGen1 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
-
         Dictionary<int, IEnumerable<(string, int)>> Data = new Dictionary<int, IEnumerable<(string, int)>>();
-
         foreach (Pokemon pokemon in allGen1)
         {
             List<(string, int)> valuesList = new List<(string, int)>();
@@ -121,34 +149,72 @@ else
             {
                 string statName = stat.Stat.Name.ToString().ToUpper();
                 int statNum = stat.BaseStat;
-                //it successfully reaches here with non null values
-
                 var statItem = (statName, statNum);
                 valuesList.Add(statItem);
-
             }
             IEnumerable<(string, int)> Values = valuesList;
-
-
             Data.Add(pokemon.Id, Values);
-
         }
-        PData = Data;
+        PData = Data; // Pdata has no values, only keys
+
+
+        // Pokemon list for Offcanvas and Grid display
+        gridListGen1 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
+        Dictionary<int, IEnumerable<(string, int)>> Data2 = new Dictionary<int, IEnumerable<(string, int)>>();
+        foreach (Pokemon pokemon in gridListGen1)
+        {
+            List<(string, int)> valuesList = new List<(string, int)>();
+            foreach (var stat in pokemon.Stats)
+            {
+                string statName = stat.Stat.Name.ToString().ToUpper();
+                int statNum = stat.BaseStat;
+                var statItem = (statName, statNum);
+                valuesList.Add(statItem);
+            }
+            IEnumerable<(string, int)> Values = valuesList;
+            Data2.Add(pokemon.Id, Values);
+        }
+        PData2 = Data2; // PData2 has no values, only keys
     }
 
-    private async Task ShowEmployeeComponent(Pokemon newP)
+
+    // Data provider method for grid
+    private async Task<GridDataProviderResult<Pokemon>> PokemonDataProvider(GridDataProviderRequest<Pokemon> request)
+    {
+        return await Task.FromResult(request.ApplyTo(gridListGen1));
+    }
+
+
+    // Modal display method for grid
+    private async Task ShowPokemonGridModal(GridRowEventArgs<Pokemon> args)
+    {
+        GridCurrentPokemon.SpriteURL = args.Item.SpriteURL;
+        GridCurrentPokemon.Abilities = args.Item.Abilities;
+        GridCurrentPokemon.Stats = args.Item.Stats;
+        GridCurrentPokemon.Weight = args.Item.Weight;
+        GridCurrentPokemon.Height = args.Item.Height;
+        GridCurrentPokemon.Id = args.Item.Id;
+        GridCurrentPokemon.Moves = args.Item.Moves;
+        GridCurrentPokemon.Types = args.Item.Types;
+        GridCurrentPokemon.Name = args.Item.Name;
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("Pokemon", GridCurrentPokemon);
+        await modalGrid.ShowAsync<GridModal>(title: "Pokemon Information", parameters: parameters);
+    }
+
+    // Regular Modal dispaly from Pokemon card
+    private async Task ShowPokemonModal(Pokemon newP)
     {
         SetC(newP);
         var parameters = new Dictionary<string, object>();
         parameters.Add("Pokemon", CurrentPokemon);
-        await modal.ShowAsync<PokemonModal>(title: null, parameters: parameters);
-        
+        await modal.ShowAsync<PokemonModal>(title: "Pokemon Information", parameters: parameters);
     }
 
+    // Sets current Pokemon for regular modal display
     private void SetC(Pokemon newP)
     {
         CurrentPokemon = newP;
     }
 }
-
 

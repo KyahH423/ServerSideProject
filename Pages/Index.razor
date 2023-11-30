@@ -8,15 +8,42 @@
     <div class="homeTitle">
         <p>WELCOME TO<br />POKEDEX PLUS!</p>
     </div>
+    
     <div class="row" style="margin-top:5%;">
         <div class="col-md-4 creatorFav">
-            <p> test left</p>
+            <img class="pokeball" src="/css/pokeball.png" alt="Fuck this piece of shit game " />
+            <img class="pokemon-sprite" src="@allGen3[34].SpriteURL" alt="@allGen3[34].Name">
+            <br /><br />
+            <p>Look at the baby</p>
         </div>
         <div class="col-md-4 homeBio">
-            <p  style="text-align:center;">Hi trainer! Thank you for visiting our newly launched Pokedex Plus! Our Pokedex was created with the intention of preserving the original sprite characters while modernizing the way Pokemon statistics and information are displayed. </p>
+            <p  style="text-align:center; margin-top:50px"> Hi trainer! Thank you for visiting our newly launched Pokedex Plus! Our Pokedex was created with the intention of preserving the original sprite characters while modernizing the way Pokemon statistics and information are displayed. </p>
         </div>
         <div class="col-md-4 creatorFav">
-            <p> test right</p>
+            <img class="pokeball" src="/css/pokeball.png" alt="Fuck this piece of shit game " />
+            <img class="pokemon-sprite" src="@allGen3[8].SpriteURL" alt="@allGen3[8].Name">
+            <br /><br />
+            <p>Now look at the big baby</p>
+        </div>
+    </div>
+    <div class="row"style="margin-top:5%;">
+        <div class="col-md-4 creatorFav">
+            <img class="pokeball" src="/css/pokeball.png" alt="Fuck this piece of shit game " />
+            <img class="pokemon-sprite" src="@allGen1[73].SpriteURL" alt="@allGen1[73].Name">
+            <br /><br />
+            <p>Litterally Project Director Ultra Commander Morgan Laymon</p>
+        </div>
+        <div class="col-md-4 creatorFav">
+            <img class="pokeball" src="/css/pokeball.png" alt="Fuck this piece of shit game " />
+            <img class="pokemon-sprite" src="@allGen8[70].SpriteURL" alt="@allGen8[70].Name">
+            <br /><br />
+            <p>Favorite silly guy of our favorite <strikeThrough>tyrant</strikeThrough> teacher Will</p>
+        </div>
+        <div class="col-md-4 creatorFav">
+            <img class="pokeball" src="/css/pokeball.png" alt="Fuck this piece of shit game " />
+            <img class="pokemon-sprite" src="@allGen8[41].SpriteURL" alt="@allGen8[41].Name">
+            <br /><br />
+            <p>Favorite of resident slow man Maddux because "He is insec"</p>
         </div>
     </div>
 </div>
@@ -24,6 +51,25 @@
 
 
 @code{
+    public Pokemon[]? allGen3;
+    public Pokemon[]? allGen1;
+    public Pokemon[]? allGen8;
+
+    private List<(string, int)>? specificPokemonStat;
+    private Dictionary<int, IEnumerable<(string, int)>> PData;
+
+    public Pokemon CurrentPokemon = new Pokemon();
+    private Modal modal = default!;
+
+    // Read in JSON file
+    string json = System.IO.File.ReadAllText("./Data/gen3.json");
+    protected override async Task OnInitializedAsync()
+    {
+        // Pokemon array for regular display
+        allGen3 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(json);
+        allGen1 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(System.IO.File.ReadAllText("./Data/gen1.json"));
+        allGen8 = Newtonsoft.Json.JsonConvert.DeserializeObject<Pokemon[]>(System.IO.File.ReadAllText("./Data/gen8.json"));
+    }
 
 }
 
